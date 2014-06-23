@@ -42,6 +42,14 @@ int main(int argc, const char * argv[])
     bst.postorderTraverseRecursive(bst.root(), visit);
     cout << "============二叉搜索树 后序遍历(迭代)============" << endl;
     bst.postorderTraverseIteration(bst.root(), visit);
+    
+    int data = 20;
+    bst.remove(data);
+    
+    cout << "============reomve 中序遍历====================" << endl;
+    bst.inorderTraverseIteration(bst.root(), visit);
+    cout << "after remove : bst.height = " << bst.height() << endl;
+    cout << "after remove : bst.size = " << bst.size() << endl;
 
     
     // 二叉树

@@ -93,7 +93,9 @@ public:
     void preorderTraverseIteration(BinaryNode<DataType>*node,void(*)(BinaryNode<DataType>*));
     void inorderTraverseIteration(BinaryNode<DataType>*node,void(*)(BinaryNode<DataType>*));
     void postorderTraverseIteration(BinaryNode<DataType>*node,void(*)(BinaryNode<DataType>*));
-    int remove(BinaryNode<DataType>* bn);
+    void remove(BinaryNode<DataType>* bn);
+private:
+    static void deleteNode(BinaryNode<DataType>* node){delete node;}
 
 };
 
@@ -112,6 +114,8 @@ int BinaryTree<DataType>::calculateTreeHeight(BinaryNode<DataType>* node) {
  */
 template <typename DataType>
 void BinaryTree<DataType>::updataHeightAbove(BinaryNode<DataType> *node) {
+    
+    if(!node)return;
     int currentHeight = node->height;
     while (node) {
         
@@ -152,15 +156,21 @@ BinaryNode<DataType>* BinaryTree<DataType>::insertAsRChild(BinaryNode<DataType>*
     return node->rChild;
 }
 
+//template <typename DataType>
+//void deleteNode(BinaryNode<DataType>* node) {
+//    delete node;
+//}
+
 template <typename DataType>
-int BinaryTree<DataType>::remove(BinaryNode<DataType>* node) {
+void BinaryTree<DataType>::remove(BinaryNode<DataType>* node) {
     
-    return 0;
-    int nodeCount = 0;
-    while (node) {
-        
-    }
+//    void deleteNode(BinaryNode<DataType>*);
+    
+    inorderTraverseIteration(node, deleteNode);
+    
+    _root = NULL;
 }
+
 
 
 
