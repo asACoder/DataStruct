@@ -10,11 +10,12 @@
 #define __BinaryTree__BinaryTree__
 
 #include <stack>
+using namespace std;
+
+
 /*
  *定义二叉树的节点
- *
  */
-using namespace std;
 template <typename DataType>
 struct BinaryNode {
     DataType value;
@@ -29,6 +30,8 @@ public:
     int size();
     BinaryNode* insertAsLChild(DataType const &data);
     BinaryNode* insertAsRChild(DataType const &data);
+    
+    
 };
 
 template <typename DataType>
@@ -55,16 +58,16 @@ BinaryNode<DataType>* BinaryNode<DataType>::insertAsRChild(DataType const &data)
  *
  */
 template <typename DataType>
-class BinaryTree {
-    
+class BinaryTree
+{
 protected:
     int _size;// 节点个数
     BinaryNode<DataType>* _root;// 根节点
     
-    virtual int updataHeight(BinaryNode<DataType>* node);// 更新节点node的高度
-    
+    virtual int calculateTreeHeight(BinaryNode<DataType>* node);// 更新节点node的高度
     void updataHeightAbove(BinaryNode<DataType>* node);// 更新节点node及其祖先节点
     
+//    BinaryNode<DataType>* minValue(BinaryNode<DataType> *node);//查找以node为根的树最小的节点
 public:
     BinaryTree():_size(0),_root(NULL){}
     ~BinaryTree(){remove(_root);}
@@ -72,11 +75,14 @@ public:
     int size() const {return _size;}
     bool empty() const { return !_root;}
     BinaryNode<DataType>* root(){return _root;}
-    int height() {return updataHeight(_root);}
+    int height() {return calculateTreeHeight(_root);}
     
     BinaryNode<DataType>* insertAsRoot(DataType const &data);
     BinaryNode<DataType>* insertAsLChild(BinaryNode<DataType>* node,DataType const &l);
     BinaryNode<DataType>* insertAsRChild(BinaryNode<DataType>* node,DataType const &r);
+    
+    //中序遍历下的后继
+    BinaryNode<DataType>* successor(BinaryNode<DataType>* node);
     
     // 递归版本遍历
     void preorderTraverseRecursive(BinaryNode<DataType>*node,void (*)(BinaryNode<DataType>*));
@@ -91,22 +97,25 @@ public:
 
 };
 
+/*
+ *计算树的高度
+ */
 template <typename DataType>
-int BinaryTree<DataType>::updataHeight(BinaryNode<DataType>* node) {
+int BinaryTree<DataType>::calculateTreeHeight(BinaryNode<DataType>* node) {
     int leftSubTreeHeight = node->lChild ? node->lChild->height : -1;
     int rightSubTreeHeight = node->rChild ? node->rChild->height : -1;
     return node->height = 1 + (leftSubTreeHeight > rightSubTreeHeight ? leftSubTreeHeight:rightSubTreeHeight);
 }
 
+/*
+ *沿着节点的parent 向上更新（计算）树的高度
+ */
 template <typename DataType>
 void BinaryTree<DataType>::updataHeightAbove(BinaryNode<DataType> *node) {
     int currentHeight = node->height;
     while (node) {
         
-//        int leftSubTreeHeight = node->lChild ? node->lChild->height : -1;
-//        int rightSubTreeHeight = node->rChild ? node->rChild->height : -1;
-//        node->height = 1 + (leftSubTreeHeight > rightSubTreeHeight ? leftSubTreeHeight:rightSubTreeHeight);
-        int updatHeight = updataHeight(node);
+        int updatHeight = calculateTreeHeight(node);
         
         if (currentHeight == updatHeight) { // 高度没有发生改变，停止向上更新
             break;
@@ -147,11 +156,60 @@ template <typename DataType>
 int BinaryTree<DataType>::remove(BinaryNode<DataType>* node) {
     
     return 0;
-    
-//    while (node) {
-//
-//    }
+    int nodeCount = 0;
+    while (node) {
+        
+    }
 }
+
+
+
+///*
+// *查找以node为根的树 最小的节点
+// */
+//template <typename DataType>
+//BinaryNode<DataType>* BinaryTree<DataType>::minValue(BinaryNode<DataType>* node) {
+//    
+//    while (node->lChild) {
+//        node = node->lChild;
+//    }
+//    
+//    return node;
+//}
+
+/*
+ *中序遍历下的后继
+ */
+
+template <typename DataType>
+BinaryNode<DataType>* BinaryTree<DataType>::successor(BinaryNode<DataType> *node) {
+    
+    if(!node) return NULL;
+    
+    BinaryNode<DataType> *succ = NULL;
+    
+    if (node->rChild) {// 如果有右孩子
+        BinaryNode<DataType>* deepestLeftChild = node->rChild;
+        // 查找该右子树的最左孩子
+        while (deepestLeftChild->lChild) {
+            deepestLeftChild = deepestLeftChild->lChild;
+        }
+        succ = deepestLeftChild;
+    }else{
+        BinaryNode<DataType> *parentOfNode = node->parent;
+        
+        while (parentOfNode && parentOfNode->rChild == node) {// 该节点是父亲节点的右孩子
+            node = parentOfNode;
+            parentOfNode = node->parent;
+        }
+        succ = parentOfNode;
+    }
+    
+    return succ;
+}
+
+
+
 
 // 先序遍历 递归
 template<typename DataType>
@@ -239,6 +297,7 @@ void BinaryTree<DataType>::postorderTraverseIteration(BinaryNode<DataType>*node,
             node = node->lChild;
         }else if(node->rChild){ // 转向右
             s.push(node);
+            node = node->rChild;
         }else{ // 叶子节点
             visit(node);
             while (!s.empty()) {

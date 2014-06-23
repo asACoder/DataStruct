@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "BinaryTree.h"
+#include "BinarySearchTree.h"
 
 using namespace std;
 
@@ -19,13 +20,32 @@ void visit(BinaryNode<DataType>*node) {
 int main(int argc, const char * argv[])
 {
 
-    // insert code here...
+    cout << "===============二叉搜索树================"<<endl;
+
     
-//    BinaryNode<int> b;
-//
-//    b.insertAsLChild(5);
+    int arr[] = {20,12,32,6,4,8,16,18,28,64,127};
+    
+    BinarySearchTree<int> bst;
+    
+    for (int i = 0; i < 11; i++) {
+        bst.insert(arr[i]);
+    }
+    
+    cout << "============二叉搜索树 中序遍历(递归)============" << endl;
+    bst.inorderTraverseRecursive(bst.root(), visit);
+    cout << "============二叉搜索树 中序遍历(迭代)============" << endl;
+    bst.inorderTraverseIteration(bst.root(), visit);
     
     
+    
+    cout << "============二叉搜索树 后序遍历(递归)============" << endl;
+    bst.postorderTraverseRecursive(bst.root(), visit);
+    cout << "============二叉搜索树 后序遍历(迭代)============" << endl;
+    bst.postorderTraverseIteration(bst.root(), visit);
+
+    
+    // 二叉树
+    cout << "============二叉树============"<<endl;
     stack<int> s;
     
     s.push(124);

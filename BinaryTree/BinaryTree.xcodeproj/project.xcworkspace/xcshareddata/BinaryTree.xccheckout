@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>57DDA4AE-4331-4899-B5B7-9BCA0DEB2AD5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>BinaryTree</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>35E0A450-27FA-4D34-A179-E322D9505106</key>
+		<string>https://github.com/asACoder/DataStruct.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>BinaryTree/BinaryTree.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>35E0A450-27FA-4D34-A179-E322D9505106</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/asACoder/DataStruct.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>35E0A450-27FA-4D34-A179-E322D9505106</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>35E0A450-27FA-4D34-A179-E322D9505106</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DataStruct</string>
+		</dict>
+	</array>
+</dict>
+</plist>
