@@ -13,6 +13,8 @@
 using namespace std;
 
 
+
+#define Height(x) ((x) ? (x)->height : - 1) 
 /*
  *定义二叉树的节点
  */
@@ -64,18 +66,20 @@ protected:
     int _size;// 节点个数
     BinaryNode<DataType>* _root;// 根节点
     
-    virtual int calculateTreeHeight(BinaryNode<DataType>* node);// 更新节点node的高度
-    void updataHeightAbove(BinaryNode<DataType>* node);// 更新节点node及其祖先节点
+    virtual int  updateHeight(BinaryNode<DataType>* node);// 更新节点node的高度
+    void updateHeightAbove(BinaryNode<DataType>* node);// 更新节点node及其祖先节点
+    
+
     
 //    BinaryNode<DataType>* minValue(BinaryNode<DataType> *node);//查找以node为根的树最小的节点
 public:
     BinaryTree():_size(0),_root(NULL){}
-    ~BinaryTree(){remove(_root);}
+    ~BinaryTree(){destroyTree(_root);}
     
     int size() const {return _size;}
     bool empty() const { return !_root;}
     BinaryNode<DataType>* root(){return _root;}
-    int height() {return calculateTreeHeight(_root);}
+    int height() {return Height(_root);}
     
     BinaryNode<DataType>* insertAsRoot(DataType const &data);
     BinaryNode<DataType>* insertAsLChild(BinaryNode<DataType>* node,DataType const &l);
@@ -93,9 +97,10 @@ public:
     void preorderTraverseIteration(BinaryNode<DataType>*node,void(*)(BinaryNode<DataType>*));
     void inorderTraverseIteration(BinaryNode<DataType>*node,void(*)(BinaryNode<DataType>*));
     void postorderTraverseIteration(BinaryNode<DataType>*node,void(*)(BinaryNode<DataType>*));
-    void remove(BinaryNode<DataType>* bn);
+
 private:
     static void deleteNode(BinaryNode<DataType>* node){delete node;}
+    void destroyTree(BinaryNode<DataType>* bn);
 
 };
 
@@ -103,9 +108,16 @@ private:
  *计算树的高度
  */
 template <typename DataType>
-int BinaryTree<DataType>::calculateTreeHeight(BinaryNode<DataType>* node) {
-    int leftSubTreeHeight = node->lChild ? node->lChild->height : -1;
-    int rightSubTreeHeight = node->rChild ? node->rChild->height : -1;
+int BinaryTree<DataType>::updateHeight(BinaryNode<DataType>* node) {
+    
+    if (!node) {
+        return -1;
+    }
+//    
+//    int leftSubTreeHeight = node->lChild ? node->lChild->height : -1;
+//    int rightSubTreeHeight = node->rChild ? node->rChild->height : -1;
+    int leftSubTreeHeight = Height(node->lChild);
+    int rightSubTreeHeight = Height(node->rChild);
     return node->height = 1 + (leftSubTreeHeight > rightSubTreeHeight ? leftSubTreeHeight:rightSubTreeHeight);
 }
 
@@ -113,13 +125,14 @@ int BinaryTree<DataType>::calculateTreeHeight(BinaryNode<DataType>* node) {
  *沿着节点的parent 向上更新（计算）树的高度
  */
 template <typename DataType>
-void BinaryTree<DataType>::updataHeightAbove(BinaryNode<DataType> *node) {
+void BinaryTree<DataType>::updateHeightAbove(BinaryNode<DataType> *node) {
     
     if(!node)return;
-    int currentHeight = node->height;
+    int currentHeight  = 0;
+    int updatHeight = 0;
     while (node) {
-        
-        int updatHeight = calculateTreeHeight(node);
+        currentHeight = node->height;
+        updatHeight =  updateHeight(node);
         
         if (currentHeight == updatHeight) { // 高度没有发生改变，停止向上更新
             break;
@@ -141,7 +154,7 @@ BinaryNode<DataType>* BinaryTree<DataType>::insertAsLChild(BinaryNode<DataType>*
 {
     node->insertAsLChild(l);
     _size++;
-    updataHeightAbove(node);
+    updateHeightAbove(node);
     return node->lChild;
     
 
@@ -152,22 +165,17 @@ BinaryNode<DataType>* BinaryTree<DataType>::insertAsRChild(BinaryNode<DataType>*
 {
     node->insertAsRChild(r);
     _size++;
-    updataHeightAbove(node);
+    updateHeightAbove(node);
     return node->rChild;
 }
 
-//template <typename DataType>
-//void deleteNode(BinaryNode<DataType>* node) {
-//    delete node;
-//}
+
 
 template <typename DataType>
-void BinaryTree<DataType>::remove(BinaryNode<DataType>* node) {
-    
-//    void deleteNode(BinaryNode<DataType>*);
+void BinaryTree<DataType>::destroyTree(BinaryNode<DataType>* node) {
     
     inorderTraverseIteration(node, deleteNode);
-    
+    _size = 0;
     _root = NULL;
 }
 
@@ -330,6 +338,10 @@ void BinaryTree<DataType>::postorderTraverseIteration(BinaryNode<DataType>*node,
         }
     }
 }
+
+
+
+
 
 
 

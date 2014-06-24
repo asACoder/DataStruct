@@ -17,10 +17,14 @@ class BinarySearchTree :public BinaryTree<DataType>
 {
 protected:
     BinaryNode<DataType>* _hot;// 查找节点的父亲节点(search 返回NULL 假想 _hot 为NULL的父节点)
+    
+    void leftRotation(BinaryNode<DataType> *node); // 左旋
+    void rightRotation(BinaryNode<DataType> *node);// 右旋
+    
 public:
-    BinaryNode<DataType>* search(DataType& data);
-    BinaryNode<DataType>* insert(DataType& data);
-    bool remove(DataType& data);
+    virtual BinaryNode<DataType>* search(DataType& data);
+    virtual BinaryNode<DataType>* insert(DataType& data);
+    virtual bool remove(DataType& data);
 private:
     void swap(DataType& val, DataType& data);
 };
@@ -77,7 +81,7 @@ BinaryNode<DataType>* BinarySearchTree<DataType>::insert(DataType& data) {
     }else{
         curNode = this->insertAsRChild(_hot,data);
     }
-    this->updataHeightAbove(curNode);
+//    this->updataHeightAbove(curNode); insertAsLChild 和 insertAsRChild 内部调用
     return curNode;
 }
 
@@ -114,13 +118,63 @@ bool BinarySearchTree<DataType>::remove(DataType& data) {
     }
     
     BinaryTree<DataType>::_size--;
-    this->updataHeightAbove(_hot);
-    
-    
+    this->updateHeightAbove(_hot);
+
     return true;
 }
 
+// 左旋
+template <typename DataType>
+void BinarySearchTree<DataType>::leftRotation(BinaryNode<DataType> *node) {
+    
+    BinaryNode<DataType> *nodeParent = node->parent;// 旋转节点父亲节点
+    BinaryNode<DataType> *nodeGrandFather = nodeParent->parent;//旋转节点祖父节点 为NULL 说明nodeParent是根节点
+    
+    nodeParent->rChild = node->lChild;
+    node->lChild = nodeParent;
+    
+    nodeParent->parent = node;
+    
+    if (node->lChild) {
+        node->lChild->parent = nodeParent;
+    }
+    
+    if (nodeGrandFather) {
+        node->parent = nodeGrandFather;
+        nodeGrandFather->rChild = node;
+    }else{
+        BinaryTree<DataType>::_root = node;
+        node->parent = NULL;
+    }
+    this->updateHeightAbove(nodeParent);
 
+}
 
+// 右旋
+template <typename DataType>
+void BinarySearchTree<DataType>::rightRotation(BinaryNode<DataType> *node) {
+    BinaryNode<DataType> *nodeParent = node->parent;// 旋转节点父亲节点
+    BinaryNode<DataType> *nodeGrandFather = nodeParent->parent;//旋转节点祖父节点 为NULL 说明nodeParent是根节点
+    
+    nodeParent->lChild = node->rChild;
+    node->rChild = nodeParent;
+    
+    nodeParent->parent = node;
+    
+    if (node->rChild) {
+        node->rChild->parent = nodeParent;
+    }
+    
+    if (nodeGrandFather) {
+        node->parent = nodeGrandFather;
+        nodeGrandFather->lChild = node;
+    }else{
+        BinaryTree<DataType>::_root = node;
+        node->parent = NULL;
+    }
+    
+    this->updateHeightAbove(nodeParent);
+    
+}
 
 #endif /* defined(__BinaryTree__BinarySearchTree__) */
