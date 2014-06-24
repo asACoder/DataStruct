@@ -141,7 +141,11 @@ void BinarySearchTree<DataType>::leftRotation(BinaryNode<DataType> *node) {
     
     if (nodeGrandFather) {
         node->parent = nodeGrandFather;
-        nodeGrandFather->rChild = node;
+        if (nodeGrandFather->lChild == nodeParent) {
+            nodeGrandFather->lChild = node;
+        }else{
+            nodeGrandFather->rChild = node;
+        }
     }else{
         BinaryTree<DataType>::_root = node;
         node->parent = NULL;
@@ -167,7 +171,11 @@ void BinarySearchTree<DataType>::rightRotation(BinaryNode<DataType> *node) {
     
     if (nodeGrandFather) {
         node->parent = nodeGrandFather;
-        nodeGrandFather->lChild = node;
+        if (nodeGrandFather->lChild == nodeParent) {
+            nodeGrandFather->lChild = node;
+        }else{
+            nodeGrandFather->rChild = node;
+        }
     }else{
         BinaryTree<DataType>::_root = node;
         node->parent = NULL;

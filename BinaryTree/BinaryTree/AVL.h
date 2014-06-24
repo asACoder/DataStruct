@@ -64,6 +64,7 @@ BinaryNode<DataType>* AVL<DataType>::insert(DataType &data) {
         curNode = this->insertAsRChild(BinarySearchTree<DataType>::_hot,data);
     }
     
+    
     // g 为 第一个 失衡节点
     // p 为 g的孩子，且 p的高度 > g 的另一个孩子的高度
     // v 为 p 的孩子 且 v的高度 >= p 的另一个孩子的高度
@@ -83,7 +84,6 @@ BinaryNode<DataType>* AVL<DataType>::insert(DataType &data) {
                     this->leftRotation(v);
                     this->rightRotation(v);
                 }
-                
             }else{
                 p = g->rChild;
                 if (Height(p->lChild) < Height(p->rChild)) {
@@ -95,7 +95,6 @@ BinaryNode<DataType>* AVL<DataType>::insert(DataType &data) {
                     this->leftRotation(v);
                 }
             }
-
             break;
         }
     }//只需要调整一次，整棵树即平衡

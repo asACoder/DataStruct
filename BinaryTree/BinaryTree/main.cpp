@@ -21,8 +21,13 @@ int main(int argc, const char * argv[])
 {
 
     AVL<int> avl;
-    int avlDataArr[] = {1,2,3,4,5,6};
-    for (int i = 0; i < 6; i++) {
+//    int avlDataArr[] = {1,2,3,4,5,6};
+//    for (int i = 0; i < 6; i++) {
+//        avl.insert(avlDataArr[i]);
+//    }
+    
+    int avlDataArr[] = {50,25,75,65,68};
+    for (int i = 0; i < 5; i++) {
         avl.insert(avlDataArr[i]);
     }
     cout << "===============AVL==============="<<endl;
