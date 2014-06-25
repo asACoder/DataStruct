@@ -11,6 +11,7 @@
 		9078EEF7194308000001A46D /* BinaryTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9078EEF5194308000001A46D /* BinaryTree.cpp */; };
 		D191B9F81958156C004A207D /* BinarySearchTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D191B9F61958156C004A207D /* BinarySearchTree.cpp */; };
 		D1EDEB6719590E5F0048E5CD /* AVL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1EDEB6519590E5F0048E5CD /* AVL.cpp */; };
+		D1EDEB82195AB21E0048E5CD /* RedBlackTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1EDEB80195AB21E0048E5CD /* RedBlackTree.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +35,8 @@
 		D191B9F71958156C004A207D /* BinarySearchTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BinarySearchTree.h; sourceTree = "<group>"; };
 		D1EDEB6519590E5F0048E5CD /* AVL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AVL.cpp; sourceTree = "<group>"; };
 		D1EDEB6619590E5F0048E5CD /* AVL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVL.h; sourceTree = "<group>"; };
+		D1EDEB80195AB21E0048E5CD /* RedBlackTree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RedBlackTree.cpp; sourceTree = "<group>"; };
+		D1EDEB81195AB21E0048E5CD /* RedBlackTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedBlackTree.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +76,8 @@
 				D191B9F71958156C004A207D /* BinarySearchTree.h */,
 				D1EDEB6519590E5F0048E5CD /* AVL.cpp */,
 				D1EDEB6619590E5F0048E5CD /* AVL.h */,
+				D1EDEB80195AB21E0048E5CD /* RedBlackTree.cpp */,
+				D1EDEB81195AB21E0048E5CD /* RedBlackTree.h */,
 			);
 			path = BinaryTree;
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 			files = (
 				9078EEF7194308000001A46D /* BinaryTree.cpp in Sources */,
 				9078EEED194307E60001A46D /* main.cpp in Sources */,
+				D1EDEB82195AB21E0048E5CD /* RedBlackTree.cpp in Sources */,
 				D191B9F81958156C004A207D /* BinarySearchTree.cpp in Sources */,
 				D1EDEB6719590E5F0048E5CD /* AVL.cpp in Sources */,
 			);

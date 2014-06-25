@@ -18,6 +18,13 @@ using namespace std;
 /*
  *定义二叉树的节点
  */
+
+
+typedef enum{
+    REDCOLOR = 0,
+    BLACKCOLOR
+}Color;
+
 template <typename DataType>
 struct BinaryNode {
     DataType value;
@@ -25,9 +32,11 @@ struct BinaryNode {
     BinaryNode *lChild;
     BinaryNode *rChild;
     int height; // 高度 空树高度为-1
+    Color color;
+    
 public:
-    BinaryNode():parent(NULL),lChild(NULL),rChild(NULL),height(0){}
-    BinaryNode(DataType d,BinaryNode * p = NULL,BinaryNode *l = NULL,BinaryNode*r = NULL,int h = 0):value(d),parent(p),lChild(l),rChild(r),height(h){}
+    BinaryNode():parent(NULL),lChild(NULL),rChild(NULL),height(0),color(REDCOLOR){}
+    BinaryNode(DataType d,BinaryNode * p = NULL,BinaryNode *l = NULL,BinaryNode*r = NULL,int h = 0,Color c = REDCOLOR):value(d),parent(p),lChild(l),rChild(r),height(h),color(c){}
    
     int size();
     BinaryNode* insertAsLChild(DataType const &data);
@@ -147,6 +156,8 @@ template <typename DataType>
 BinaryNode<DataType>* BinaryTree<DataType>::insertAsRoot(DataType const &data) {
     _size++;
     _root = new BinaryNode<DataType>(data);
+    _root->color = BLACKCOLOR; // 红黑树 时 根节点为黑色
+    updateHeightAbove(_root);  // 尤其 在红黑树需要更新根节点黑高度
     return _root;
 }
 

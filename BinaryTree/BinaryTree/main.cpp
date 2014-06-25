@@ -10,6 +10,7 @@
 #include "BinaryTree.h"
 #include "BinarySearchTree.h"
 #include "AVL.h"
+#include "RedBlackTree.h"
 using namespace std;
 
 template <typename DataType>
@@ -19,6 +20,18 @@ void visit(BinaryNode<DataType>*node) {
 
 int main(int argc, const char * argv[])
 {
+    
+    cout << "===============RedBlackTree ==============="<<endl;
+    
+    RedBlackTree<int> rbt;
+    
+    int test = 5;
+    rbt.insert(test);
+    
+    test = 7;
+    rbt.insert(test);
+    
+    
 
     AVL<int> avl;
 //    int avlDataArr[] = {1,2,3,4,5,6};
