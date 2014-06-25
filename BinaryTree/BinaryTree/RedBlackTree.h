@@ -30,8 +30,10 @@ using namespace std;
 template <typename DataType>
 class RedBlackTree: public BinarySearchTree<DataType>
 {
+protected:
     int updateHeight(BinaryNode<DataType>* node); // 更新节点 黑高度
-    
+    void doubleRedFix(BinaryNode<DataType>* node); // 双红修正
+    void doubleBlackFix(BinaryNode<DataType>* node); // 双黑修正
 public:
     BinaryNode<DataType>* insert(DataType& data);
     bool remove(DataType& data);
@@ -77,8 +79,9 @@ BinaryNode<DataType>* RedBlackTree<DataType>::insert(DataType& data) {
         curNode = this->insertAsRChild(this->_hot,data);
     }
     
+    // 插入节点 性质3 未必能保持(double red )
     
-    
+    doubleRedFix(curNode);
     
     return curNode;
 }
@@ -89,6 +92,29 @@ bool RedBlackTree<DataType>::remove(DataType& data)
     return true;
 }
 
+/*
+ *RedBlackTree doubleRedFix
+ */
 
+template <typename DataType>
+void RedBlackTree<DataType>::doubleRedFix(BinaryNode<DataType>*v) {
+    
+    BinaryNode<DataType> *p = NULL; // v 的 父亲
+    BinaryNode<DataType> *g = NULL; // v 的 祖父 p的父亲
+    BinaryNode<DataType> *pBrother = NULL; // p 的 兄弟
+    
+    while (isRed(v->parent)) {
+        p = v->parent;
+        g = p->parent;
+        
+        if (g->lChild == p) { // p 是 g的做孩子
+            pBrother = g->rChild;
+            if (isBlack(pBrother)) {
+                
+            }
+        }
+    }
+    
+}
 
 #endif /* defined(__BinaryTree__RedBlackTree__) */
