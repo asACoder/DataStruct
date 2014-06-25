@@ -128,15 +128,16 @@ template <typename DataType>
 void BinaryTree<DataType>::updateHeightAbove(BinaryNode<DataType> *node) {
     
     if(!node)return;
-    int currentHeight  = 0;
-    int updatHeight = 0;
+//    int currentHeight  = 0;
+//    int updatHeight = 0;
     while (node) {
-        currentHeight = node->height;
-        updatHeight =  updateHeight(node);
-        
-        if (currentHeight == updatHeight) { // 高度没有发生改变，停止向上更新
-            break;
-        }
+//        currentHeight = node->height;
+//        updatHeight =  updateHeight(node);
+//        
+//        if (currentHeight == updatHeight) { // 高度没有发生改变，停止向上更新
+//            break;
+//        }
+        updateHeight(node);// 左旋 或者 右旋 需要 更新全树
         node = node->parent;
     }
 }

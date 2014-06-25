@@ -30,7 +30,22 @@ int main(int argc, const char * argv[])
     for (int i = 0; i < 5; i++) {
         avl.insert(avlDataArr[i]);
     }
+    
+
+    
     cout << "===============AVL==============="<<endl;
+    cout << "avl height = "<< avl.height() << endl;
+    cout << "avl size = " << avl.size() << endl;
+    
+    cout << "===============AVL 中序==============="<< endl;
+    avl.inorderTraverseIteration(avl.root(), visit);
+    
+    cout << "===============AVL 先序==============="<< endl;
+    avl.preorderTraverseIteration(avl.root(), visit);
+    
+    int data = 25;
+    avl.remove(data);
+    cout << "===============AVL after remove==============="<<endl;
     cout << "avl height = "<< avl.height() << endl;
     cout << "avl size = " << avl.size() << endl;
     

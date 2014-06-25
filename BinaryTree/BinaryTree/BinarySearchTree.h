@@ -21,6 +21,8 @@ protected:
     void leftRotation(BinaryNode<DataType> *node); // 左旋
     void rightRotation(BinaryNode<DataType> *node);// 右旋
     
+    void removeAt(BinaryNode<DataType>* node);
+    
 public:
     virtual BinaryNode<DataType>* search(DataType& data);
     virtual BinaryNode<DataType>* insert(DataType& data);
@@ -93,6 +95,43 @@ bool BinarySearchTree<DataType>::remove(DataType& data) {
     BinaryNode<DataType> * curNode = search(data);
     if(!curNode) return false; // 不存在，直接返回
 
+//    if (curNode->lChild && curNode->rChild) {
+//        BinaryNode<DataType>*succ = this->successor(curNode);
+//        swap(succ->value, curNode->value);
+//        curNode = succ;
+//        _hot = succ->parent;
+//    }
+//    
+//    if (curNode->lChild) { // 只有左孩子
+//        swap(curNode->value, curNode->lChild->value);
+//        delete curNode->lChild;
+//        curNode->lChild = NULL;
+//    }else if(curNode->rChild){// 只有右孩子(交换value,删除孩子节点)
+//        swap(curNode->value, curNode->rChild->value);
+//        delete curNode->rChild;
+//        curNode->rChild = NULL;
+//    }else{ // 没有孩子 叶子节点 直接删除
+//        if (_hot) {
+//            _hot->lChild == curNode ? _hot->lChild = NULL : _hot->rChild = NULL;
+//        }else{ // 只有根节点
+//            BinaryTree<DataType>::_root = NULL;
+//        }
+//        delete curNode;
+//    }
+//    BinaryTree<DataType>::_size--;
+    
+    removeAt(curNode);
+    
+    BinaryTree<DataType>::_size--;
+    this->updateHeightAbove(_hot);
+
+    return true;
+}
+
+
+template <typename DataType>
+void BinarySearchTree<DataType>::removeAt(BinaryNode<DataType>* curNode) {
+    
     if (curNode->lChild && curNode->rChild) {
         BinaryNode<DataType>*succ = this->successor(curNode);
         swap(succ->value, curNode->value);
@@ -116,12 +155,8 @@ bool BinarySearchTree<DataType>::remove(DataType& data) {
         }
         delete curNode;
     }
-    
-    BinaryTree<DataType>::_size--;
-    this->updateHeightAbove(_hot);
-
-    return true;
 }
+
 
 // 左旋
 template <typename DataType>
@@ -131,13 +166,14 @@ void BinarySearchTree<DataType>::leftRotation(BinaryNode<DataType> *node) {
     BinaryNode<DataType> *nodeGrandFather = nodeParent->parent;//旋转节点祖父节点 为NULL 说明nodeParent是根节点
     
     nodeParent->rChild = node->lChild;
-    node->lChild = nodeParent;
     
     nodeParent->parent = node;
     
     if (node->lChild) {
         node->lChild->parent = nodeParent;
     }
+    node->lChild = nodeParent;
+
     
     if (nodeGrandFather) {
         node->parent = nodeGrandFather;
@@ -150,7 +186,7 @@ void BinarySearchTree<DataType>::leftRotation(BinaryNode<DataType> *node) {
         BinaryTree<DataType>::_root = node;
         node->parent = NULL;
     }
-    this->updateHeightAbove(nodeParent);
+    this->updateHeightAbove(nodeParent); // 旋转操作 需要更新全树
 
 }
 
@@ -161,14 +197,14 @@ void BinarySearchTree<DataType>::rightRotation(BinaryNode<DataType> *node) {
     BinaryNode<DataType> *nodeGrandFather = nodeParent->parent;//旋转节点祖父节点 为NULL 说明nodeParent是根节点
     
     nodeParent->lChild = node->rChild;
-    node->rChild = nodeParent;
     
     nodeParent->parent = node;
     
     if (node->rChild) {
         node->rChild->parent = nodeParent;
     }
-    
+    node->rChild = nodeParent;
+
     if (nodeGrandFather) {
         node->parent = nodeGrandFather;
         if (nodeGrandFather->lChild == nodeParent) {
