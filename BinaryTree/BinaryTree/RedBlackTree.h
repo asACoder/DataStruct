@@ -19,11 +19,11 @@ using namespace std;
 
 /*
  * 红黑树性质:
- *
- *  1 树根是黑色的
- *  2 外部节点均为黑色 //
- *  3 其余节点若为红色，则其孩子节点必须为黑色 // 注: 红节点的孩子和父亲都是 黑节点
- *  4 从任一外部节点到根节点，黑节点的数目相等 // 或者说  黑深度 相等
+ *  1 节点是黑色 或者 红色
+ *  2 树根是黑色的
+ *  3 外部节点均为黑色 //
+ *  4 其余节点若为红色，则其孩子节点必须为黑色 // 注: 红节点的孩子和父亲都是 黑节点
+ *  5 从任一外部节点到根节点，黑节点的数目相等 // 或者说  黑深度 相等
  */
 
 
@@ -51,7 +51,7 @@ private:
 template <typename DataType>
 int RedBlackTree<DataType>::updateHeight(BinaryNode<DataType>* node) {
     
-    cout<< "RedBlackTree updataHeight called" << endl;
+//    cout<< "RedBlackTree updataHeight called" << endl;
     
     int leftHeight = RBHeight(node->lChild);
     int rightHeight = RBHeight(node->rChild);
@@ -103,17 +103,53 @@ void RedBlackTree<DataType>::doubleRedFix(BinaryNode<DataType>*v) {
     BinaryNode<DataType> *g = NULL; // v 的 祖父 p的父亲
     BinaryNode<DataType> *pBrother = NULL; // p 的 兄弟
     
-    while (isRed(v->parent)) {
+    while (isRed(v->parent)) { // 双红
         p = v->parent;
-        g = p->parent;
+        g = p->parent; // g 一定是黑色
         
-        if (g->lChild == p) { // p 是 g的做孩子
+        if (g->lChild == p) { // p 是 g的左孩子
             pBrother = g->rChild;
-            if (isBlack(pBrother)) {
+            if (isBlack(pBrother)) { // pBrother 是黑色
+                if (p->lChild == v) { // p v 同侧
+                    p->color  = BLACKCOLOR;
+                    this->rightRotation(p);
+                }else{
+                    v->color  = BLACKCOLOR;
+                    this->leftRotation(v);
+                    this->rightRotation(v);
+                }
+                g->color = REDCOLOR;
+                break;
+            }else{// pBrother 是红色
+                p->color = BLACKCOLOR;  p->height++;
+                pBrother->color = BLACKCOLOR; pBrother->height++;
+                g->color =REDCOLOR;
                 
+                v = g;
+            }
+        }else{ // p 是 g的右孩子
+            pBrother = g->lChild;
+            if (isBlack(pBrother)) {
+                if (p->rChild == v) { // p v 同侧
+                    p->color = BLACKCOLOR;
+                    this->leftRotation(p);
+                }else{
+                    v->color = BLACKCOLOR;
+                    this->rightRotation(v);
+                    this->leftRotation(v);
+                }
+                g->color = REDCOLOR;
+                break;
+            }else{// pBrother 是红色
+                p->color = BLACKCOLOR;  p->height++;
+                pBrother->color = BLACKCOLOR; pBrother->height++;
+                g->color =REDCOLOR;
+                
+                v = g;
             }
         }
     }
+    this->_root->color = BLACKCOLOR;
     
 }
 
