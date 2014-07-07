@@ -48,6 +48,7 @@ void BinarySearchTree<DataType>::swap(DataType& val,  DataType& data) {
 template <typename DataType>
 BinaryNode<DataType>* BinarySearchTree<DataType>::search(DataType& data) {
     
+
     _hot = NULL;
     BinaryNode<DataType>* curNode = BinaryTree<DataType>::_root;
     
@@ -59,7 +60,6 @@ BinaryNode<DataType>* BinarySearchTree<DataType>::search(DataType& data) {
             _hot = curNode;
             curNode = curNode->rChild;
         }else{
-    
             return curNode;
         }
     }
@@ -138,23 +138,34 @@ void BinarySearchTree<DataType>::removeAt(BinaryNode<DataType>* curNode) {
         curNode = succ;
         _hot = succ->parent;
     }
-    
-    if (curNode->lChild) { // 只有左孩子
-        swap(curNode->value, curNode->lChild->value);
-        delete curNode->lChild;
-        curNode->lChild = NULL;
-    }else if(curNode->rChild){// 只有右孩子(交换value,删除孩子节点)
-        swap(curNode->value, curNode->rChild->value);
-        delete curNode->rChild;
-        curNode->rChild = NULL;
-    }else{ // 没有孩子 叶子节点 直接删除
-        if (_hot) {
-            _hot->lChild == curNode ? _hot->lChild = NULL : _hot->rChild = NULL;
-        }else{ // 只有根节点
-            BinaryTree<DataType>::_root = NULL;
+
+    if (_hot == NULL) { // 删除根节点
+        if (curNode->lChild) {
+            this->_root = curNode->lChild;
+            curNode->lChild->parent = NULL;
+        }else if(curNode->rChild){
+            this->_root = curNode->rChild;
+            curNode->rChild->parent = NULL;
+        }else{
+            this->_root = NULL;
         }
-        delete curNode;
+    }else{
+        if (curNode->lChild) { // 只有左孩子
+            _hot->lChild = curNode->lChild;
+            curNode->lChild->parent = _hot;
+        }else if(curNode->rChild){ // 只有右孩子
+            _hot->rChild = curNode->rChild;
+            curNode->rChild->parent = _hot;
+        }else{                  //  叶子节点
+            if (_hot->lChild == curNode) {
+                _hot->lChild = NULL;
+            }else{
+                _hot->rChild = NULL;
+            }
+        }
     }
+    
+    delete curNode;
 }
 
 
